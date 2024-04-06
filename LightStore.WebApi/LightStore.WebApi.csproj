@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Mapster.Core" Version="1.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.25.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ImageService\LightStore.ImageService.csproj" />
+    <ProjectReference Include="..\LightStore.Application\LightStore.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+  	<Generated Include="**\*.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Generated Remove="Mapping\Mappers\Implementations\OrderMapper.g.cs" />
+    <Generated Remove="Mapping\Mappers\Implementations\ProductInAddingMapper.g.cs" />
+    <Generated Remove="Mapping\Mappers\Implementations\ProductInOrderMapper.g.cs" />
+    <Generated Remove="Mapping\Mappers\Implementations\ProductsAddingMapper.g.cs" />
+    <Generated Remove="Mapping\Mappers\Implementations\ProductsCategoryMapper.g.cs" />
+    <Generated Remove="Mapping\Mappers\Implementations\WarehouseMapper.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+  <Target Name="CleanGenerated">
+  	<Delete Files="@(Generated)" />
+  </Target>
+  <Target Name="Mapster" AfterTargets="AfterBuild">
+    <!--<Exec WorkingDirectory="$(SolutionDir)" Command="dotnet tool restore" />
+    <Exec WorkingDirectory="$(SolutionDir)" Command="dotnet mapster model -a &quot;$(TargetDir)$(ProjectName).dll&quot;" />
+    <Exec WorkingDirectory="$(SolutionDir)" Command="dotnet mapster extension -a &quot;$(TargetDir)$(ProjectName).dll&quot;" />
+    <Exec WorkingDirectory="$(SolutionDir)" Command="dotnet mapster mapper -a &quot;$(TargetDir)$(ProjectName).dll&quot; -n LightStore.WebApi.Mapping.Mappers.Implementations -o Mapping/Mappers/Implementations " />-->
+  </Target>
+</Project>

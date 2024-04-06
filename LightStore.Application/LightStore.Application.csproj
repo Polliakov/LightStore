@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LightStore.Persistence\LightStore.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Mapster.Core" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+  	<Generated Include="**\*.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Generated Remove="Mapping\Mappers\Implementations\OrderMapper.g.cs" />
+    <Generated Remove="Mapping\Mappers\Implementations\ProductInOrderMapper.g.cs" />
+    <Generated Remove="Mapping\Mappers\Implementations\ProductsCategoryMapper.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Sorting\" />
+  </ItemGroup>
+  <Target Name="CleanGenerated">
+  	<Delete Files="@(Generated)" />
+  </Target>
+  <Target Name="Mapster" AfterTargets="AfterBuild">
+  	<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore" />
+  	<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster model -a &quot;$(TargetDir)$(ProjectName).dll&quot;" />
+  	<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster extension -a &quot;$(TargetDir)$(ProjectName).dll&quot;" />
+  	<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster mapper -a &quot;$(TargetDir)$(ProjectName).dll&quot; -n LightStore.Application.Mapping.Mappers.Implementations -o Mapping/Mappers/Implementations " />
+  </Target>
+</Project>
